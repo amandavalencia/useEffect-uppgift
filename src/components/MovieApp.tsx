@@ -1,29 +1,30 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { IMovie } from "../models/IMovie";
+import { useState } from "react";
+import { useFetch } from "../hooks/useFetch";
 import { Movie } from "./Movie";
 
 export const MovieApp = () => {
-  const [movies, setMovies] = useState<IMovie[]>([]);
+  const { movies, getData } = useFetch();
+  const [inputText, setInputText] = useState("");
 
-  const getData = async () => {
-    const response = await axios.get<IMovie[]>(
-      "https://medieinstitutet-wie-products.azurewebsites.net/api/products"
-    );
-    setMovies(response.data);
+  const searchMovie = () => {
+    getData(inputText)
+  
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  console.log(movies);
-  
   return (
-    <div>
-      {movies.map((movie) =>
-        <Movie movie={movie} />
-      )}
-    </div>
+    <>
+      <input
+        type="text"
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+      />
+      <button onClick={searchMovie}>Sök</button>
+
+      <div>
+        {movies.map((movie) => (
+          <Movie movie={movie}  key={movie.imdbID}/>
+        ))}
+      </div>
+    </>
   );
 };

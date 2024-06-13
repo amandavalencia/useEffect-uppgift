@@ -8,7 +8,7 @@ export const Movie = ({ movie }: IMovieProps) => {
   return (
     <>
       <div>
-        <h3>{movie.name}</h3>
+        <h3>{movie.Title}</h3>
       </div>
     </>
   );
